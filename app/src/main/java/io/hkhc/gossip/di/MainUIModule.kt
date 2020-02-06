@@ -16,20 +16,22 @@
  *
  */
 
-package io.hkhc.gossip
+package io.hkhc.gossip.di
 
-import org.junit.Test
+import androidx.lifecycle.ViewModel
+import dagger.Binds
+import dagger.Module
+import dagger.multibindings.IntoMap
+import io.hkhc.dagger.ViewModelKey
+import io.hkhc.gossip.MainViewModel
 
-import org.junit.Assert.*
+@Module
+@Suppress("unused")
+abstract class MainUIModule {
 
-/**
- * Example local unit test, which will execute on the development machine (host).
- *
- * See [testing documentation](http://d.android.com/tools/testing).
- */
-class ExampleUnitTest {
-    @Test
-    fun addition_isCorrect() {
-        assertEquals(4, 2 + 2)
-    }
+    @Binds
+    @IntoMap
+    @ViewModelKey(MainViewModel::class)
+    internal abstract fun mainViewModel(viewModel: MainViewModel): ViewModel
+
 }
