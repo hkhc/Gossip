@@ -106,6 +106,8 @@ dependencies {
     kapt "com.google.dagger:dagger-compiler:$dagger_version"
     kapt "com.google.dagger:dagger-android-processor:$dagger_version"
 
+    implementation "io.netty:netty-all:$netty_version"
+
     testImplementation "junit:junit:$junit_version"
     testImplementation "androidx.test:core:$testing_core_version"
     testImplementation "androidx.arch.core:core-testing:$arch_coretesting_version"

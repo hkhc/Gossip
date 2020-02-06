@@ -1,0 +1,169 @@
+/*
+ * Copyright (c) 2019. Herman Cheung
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ *
+ */
+
+apply plugin: 'com.jfrog.bintray'
+// must follow com.android.library, or it has no effect
+apply plugin: 'digital.wup.android-maven-publish'
+
+def pomConfig = {
+    licenses {
+        license {
+            name "The Apache Software License, Version 2.0"
+            url "http://www.apache.org/licenses/LICENSE-2.0.txt"
+            distribution "repo"
+        }
+    }
+    developers {
+        developer {
+            id "hkhc"
+            name "Herman Cheung"
+            email "herman.kh.cheung@gmail.com"
+        }
+    }
+
+    scm {
+        url project.findProperty("vcsUrl")
+    }
+}
+
+android {
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+}
+
+
+android.libraryVariants.all { variant ->
+    def name = variant.name.capitalize()
+
+    // variant.javaCompile is depreciated and variant.javaCompiler shall be used
+
+    task "javadoc$name"(type: Javadoc) {
+
+        description = "Generates javadoc for build $name"
+        destinationDir = new File(destinationDir, variant.baseName)
+
+        // we don't want R.java in javadoc (or shall we? may be we shall just keep
+        // the R.java of this project and ignore those from 3rd lib)
+        source = files(variant.javaCompileProvider.get().source).filter { file ->
+            def moduleDir = project.buildDir
+            def generatedDir = new File(moduleDir, '/generated')
+            def isGenerated = file.absolutePath.startsWith(generatedDir.absolutePath)
+            def appPackagePath = variant.applicationId.replace('.','/')
+            def isOurR = file.absolutePath.endsWith("${appPackagePath}/R.java")
+            def isOurBuildConfig = file.absolutePath.endsWith("${appPackagePath}/BuildConfig.java")
+
+            def result = !(isGenerated && !isOurR && !isOurBuildConfig)
+
+            return result
+
+        }
+
+        // setup classpath to compile java source for JavaDoc
+        classpath = files(android.getBootClasspath(), variant.javaCompileProvider.get().classpath)
+
+    }
+
+    // 'classifier' and 'appendix' determines the output filename
+    // final filename will be baseName[-appendix][-version][-classifier][.extension]
+    // see org.gradle.api.tasks.bundling.AbstractArchiveTask.getArchiveName (as of Gradle 4.4)
+
+
+    if (name=='Release') {
+        task "sourcesJar$name"(type: Jar) {
+            classifier = 'sources'
+            from files(variant.javaCompileProvider.get().source)
+        }
+
+        task "javadocJar$name"(type: Jar, dependsOn: "javadoc$name") {
+            classifier = "javadoc"
+            from tasks."javadoc$name".destinationDir
+        }
+
+        // accessing publications directly rather than publishing { publications {} }
+        // See https://stackoverflow.com/questions/28020520/custom-gradle-plugin-causes-cannot-configure-the-publishing-extension
+        publishing.publications {
+            "Bintray$name"(MavenPublication) {
+
+                from components."android"
+
+                artifact "sourcesJar$name" {
+                    classifier "sources"
+                }
+
+                artifact tasks."javadocJar$name" {
+                    classifier "javadoc"
+                }
+
+
+                afterEvaluate {
+
+                    groupId project.findProperty('group')
+                    artifactId project.findProperty('artifactId')
+                    version project.findProperty('version')
+                    pom.withXml {
+                        def root = asNode()
+                        root.appendNode('description', project.findProperty('description'))
+                        root.appendNode('name', project.findProperty('artifactId'))
+                        root.appendNode('url', project.findProperty('vcsUrl'))
+                        root.children().last() + pomConfig
+                    }
+
+                }
+            }
+        }
+
+    }
+
+
+}
+
+
+bintray {
+    user = System.getenv('BINTRAY_USER')
+    key = System.getenv('BINTRAY_KEY')
+    publications = ['BintrayRelease']
+//    configurations = ['archives']
+    override = true
+    dryRun = false
+    pkg {
+        repo = 'maven'
+        name = project.findProperty('artifactId')
+        desc = project.findProperty('description')
+        licenses = ['Apache-2.0']
+        websiteUrl = project.findProperty('vcsUrl')
+        vcsUrl = project.findProperty('vcsUrl')
+        issueTrackerUrl = project.findProperty('issuesUrl')
+        githubRepo = project.findProperty('githubRepo')
+        githubReleaseNotesFile = project.findProperty('releaseNote')
+        version {
+            name = project.findProperty('version')
+            desc = project.findProperty('description')
+            released  = new Date()
+            vcsTag = project.findProperty("version")
+        }
+        labels = ['aar', 'android']
+    }
+
+}
+
+afterEvaluate {
+    tasks.findByName('bintrayUpload').dependsOn(tasks.findByName('publishToMavenLocal'))
+}

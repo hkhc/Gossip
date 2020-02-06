@@ -1,0 +1,103 @@
+buildscript {
+    repositories {
+        jcenter()
+    }
+
+    dependencies {
+        classpath 'digital.wup:android-maven-publish:3.6.2'
+    }
+}
+
+plugins {
+    id("io.gitlab.arturbosch.detekt").version("1.0.0-RC14")
+}
+
+apply plugin: 'com.android.library'
+
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+//apply plugin: "org.jlleitschuh.gradle.ktlint"
+
+/*
+ * Copyright (c) 2019. Herman Cheung
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ *
+ */
+
+//import org.jlleitschuh.gradle.ktlint.reporter.ReporterType
+
+
+android {
+    compileSdkVersion 29
+
+    defaultConfig {
+        minSdkVersion 21
+        targetSdkVersion 29
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    testOptions {
+        unitTests {
+            includeAndroidResources = true
+            returnDefaultValues = true
+        }
+    }
+
+}
+
+//ktlint {
+//    debug = true
+//    verbose = true
+//    android = true
+//    reporters = [ReporterType.PLAIN, ReporterType.CHECKSTYLE]
+//    ignoreFailures = false
+//}
+
+//apply from: 'bintray.gradle'
+
+detekt {
+    toolVersion = "1.3.1"
+    input = files("src/main/java")
+    filters = ".*/resources/.*,.*/build/.*"
+    config = files("default-detekt-config.yml")
+}
+
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+    testImplementation 'junit:junit:4.12'
+    testImplementation 'org.assertj:assertj-core:3.11.1'
+    testImplementation("org.robolectric:robolectric:4.1") {
+        exclude group: 'commons-logging', module: 'commons-logging'
+        exclude group: 'org.apache.httpcomponents', module: 'httpclient'
+    }
+    testImplementation "io.mockk:mockk:1.9.3"
+}
+repositories {
+    mavenCentral()
+}
