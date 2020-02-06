@@ -49,8 +49,8 @@ abstract class MainActivityBuilder {
      */
     @ContributesAndroidInjector(modules = [
         /* We need the module here that provides the view model with @IntoMap. */
-        MainUIModule::class
-//        MainFragmentBuilder::class,
+        MainUIModule::class,
+        MainFragmentBuilder::class
         /*
             Then you may add modules that specifically need by this activity.
             Global module is declared at the ApplicationComponent.

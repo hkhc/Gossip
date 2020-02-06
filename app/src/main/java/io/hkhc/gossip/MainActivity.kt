@@ -24,6 +24,7 @@ import androidx.databinding.DataBindingUtil
 import dagger.android.support.DaggerAppCompatActivity
 import io.hkhc.gossip.databinding.ActivityMainBinding
 import io.hkhc.gossip.databinding.NavHeaderBinding
+import io.hkhc.gossip.testbed.TestbedFragment
 import io.hkhc.viewmodel.ViewModelFactory
 import io.hkhc.viewmodel.resolve
 import javax.inject.Inject
@@ -57,13 +58,16 @@ class MainActivity : DaggerAppCompatActivity() {
 
         setSupportActionBar(mainBinding.toolbar)
 
-        @Suppress("unused")
-        val actionBarDrawerToggle = ActionBarDrawerToggle(
+        ActionBarDrawerToggle(
             this,
             mainBinding.drawer, mainBinding.toolbar, 0, 0
         ).apply {
             syncState()
         }
+
+        supportFragmentManager.beginTransaction()
+            .add(R.id.container, TestbedFragment(), "testbed")
+            .commit()
 
     }
 }

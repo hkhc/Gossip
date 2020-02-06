@@ -16,28 +16,13 @@
  *
  */
 
-package io.hkhc.gossip.di
+package io.hkhc.gossip.testbed
 
 import androidx.lifecycle.ViewModel
-import dagger.Binds
-import dagger.Module
-import dagger.multibindings.IntoMap
-import io.hkhc.dagger.ViewModelKey
-import io.hkhc.gossip.MainViewModel
-import io.hkhc.gossip.testbed.TestbedViewModel
+import javax.inject.Inject
 
-@Module
-@Suppress("unused")
-abstract class MainUIModule {
+class TestbedViewModel @Inject constructor(): ViewModel() {
 
-    @Binds
-    @IntoMap
-    @ViewModelKey(MainViewModel::class)
-    internal abstract fun main(viewModel: MainViewModel): ViewModel
 
-    @Binds
-    @IntoMap
-    @ViewModelKey(TestbedViewModel::class)
-    internal abstract fun testbed(viewModel: TestbedViewModel): ViewModel
 
 }
