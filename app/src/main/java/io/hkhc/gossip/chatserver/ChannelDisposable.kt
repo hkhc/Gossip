@@ -16,18 +16,17 @@
  *
  */
 
-package io.hkhc.gossip
+package io.hkhc.gossip.chatserver
 
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import javax.inject.Inject
+import io.netty.channel.Channel
+import io.reactivex.disposables.Disposable
 
-class MainViewModel @Inject constructor() : ViewModel() {
-
-    val sendMessage = MutableLiveData<String>()
-
-    fun send(msg: String) {
-        sendMessage.value = msg
+class ChannelDisposable(private val channel: Channel): Disposable {
+    private var disposed = false
+    override fun dispose() {
+        if (!disposed) channel.close()
+        disposed = true
     }
-
+    override fun isDisposed() = disposed
 }
+

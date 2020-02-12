@@ -16,18 +16,20 @@
  *
  */
 
-package io.hkhc.gossip
+package io.hkhc.gossip.message
 
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import javax.inject.Inject
+import io.netty.buffer.ByteBuf
+import io.netty.buffer.Unpooled
 
-class MainViewModel @Inject constructor() : ViewModel() {
+class ShutdownMessage: Message(ID) {
 
-    val sendMessage = MutableLiveData<String>()
-
-    fun send(msg: String) {
-        sendMessage.value = msg
+    companion object {
+        const val ID = 3
     }
 
+    override fun decode(data: ByteBuf) {
+        // do nothing intentionally
+    }
+
+    override fun encode() = Unpooled.buffer(0)
 }

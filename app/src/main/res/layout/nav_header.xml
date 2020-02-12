@@ -32,34 +32,23 @@
         android:background="?attr/colorSecondary"
         android:layout_height="match_parent">
 
-<!--        <ImageView-->
-<!--            android:id="@+id/thumbnail"-->
-<!--            android:layout_width="80dp"-->
-<!--            android:layout_height="80dp"-->
-<!--            android:contentDescription="@string/cd_my_photo"-->
-<!--            android:layout_gravity="center_horizontal"/>-->
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Hello"
+            android:onClick='@{ () -> vm.send("Hello")}'/>
 
-<!--        <TextView-->
-<!--            android:id="@+id/nav_username"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:text="@{vm.userProfile.nickname}" />-->
-<!--        <TextView-->
-<!--            android:id="@+id/nav_email"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:text="@{vm.userProfile.email}" />-->
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Good morning"
+            android:onClick='@{ () -> vm.send("Good morning")}'/>
 
-<!--        <Button-->
-<!--            android:id="@+id/logout"-->
-<!--            style="@style/Widget.App.Logout"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_gravity="end"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            app:icon="@drawable/ic_exit_to_app"-->
-<!--            android:onClick="@{ () -> vm.logoff() }"-->
-<!--            android:text="Logout"/>-->
-
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Have a nice day"
+            android:onClick='@{ () -> vm.send("Have a nice day")}'/>
 
     </LinearLayout>
 </layout>

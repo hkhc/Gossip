@@ -16,18 +16,29 @@
  *
  */
 
-package io.hkhc.gossip
+package io.hkhc.gossip.message
 
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import javax.inject.Inject
+import java.util.*
 
-class MainViewModel @Inject constructor() : ViewModel() {
+object MessageFactory {
 
-    val sendMessage = MutableLiveData<String>()
+    fun create(type: Int, timestamp: Long = -1): Message? {
 
-    fun send(msg: String) {
-        sendMessage.value = msg
+        val msg = when (type) {
+            JoinGroupMessage.ID -> JoinGroupMessage()
+            QuitGroupMessage.ID -> QuitGroupMessage()
+            ShutdownMessage.ID -> ShutdownMessage()
+            ChatMessage.ID -> ChatMessage()
+            else -> null
+        }
+
+        msg?.timestamp = if (timestamp==-1L)
+            Date().time
+        else
+            timestamp
+
+        return msg
+
     }
 
 }

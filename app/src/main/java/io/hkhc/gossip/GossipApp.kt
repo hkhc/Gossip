@@ -18,11 +18,13 @@
 
 package io.hkhc.gossip
 
+import android.util.Log
 import dagger.android.support.DaggerApplication
 import io.hkhc.gossip.di.DaggerGossipAppComp
 import io.hkhc.log.Priority
 import io.hkhc.log.internal.LogFactory
 import io.hkhc.log.internal.TagMaker
+import io.hkhc.log.l
 import io.hkhc.log.providers.AndroidLogProvider
 import io.hkhc.log.providers.AndroidPackageMetaTag
 
@@ -55,6 +57,9 @@ class GossipApp: DaggerApplication() {
         LogFactory.defaultProvider = AndroidLogProvider()
         TagMaker.metaTagPolicy = AndroidPackageMetaTag(this)
         LogFactory.logLevel = Priority.Debug
+
+        Log.d("HELLO", "GossipApp onCreate")
+        l.debug("GossipApp onCreate")
     }
 
 

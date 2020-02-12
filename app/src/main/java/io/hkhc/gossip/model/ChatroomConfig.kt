@@ -16,18 +16,11 @@
  *
  */
 
-package io.hkhc.gossip
+package io.hkhc.gossip.model
 
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import javax.inject.Inject
-
-class MainViewModel @Inject constructor() : ViewModel() {
-
-    val sendMessage = MutableLiveData<String>()
-
-    fun send(msg: String) {
-        sendMessage.value = msg
-    }
+data class ChatroomConfig(
+    val memberName: String,
+    val hostMode: Boolean = false
+) {
 
 }

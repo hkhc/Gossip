@@ -19,12 +19,20 @@
 package io.hkhc.gossip
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Message
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
+import androidx.navigation.Navigation
+import androidx.navigation.fragment.NavHostFragment
 import dagger.android.support.DaggerAppCompatActivity
 import io.hkhc.gossip.databinding.ActivityMainBinding
 import io.hkhc.gossip.databinding.NavHeaderBinding
+import io.hkhc.gossip.testbed.ConfigFragment
 import io.hkhc.gossip.testbed.TestbedFragment
+import io.hkhc.gossip.testbed.TestbedViewModel
+import io.hkhc.log.l
 import io.hkhc.viewmodel.ViewModelFactory
 import io.hkhc.viewmodel.resolve
 import javax.inject.Inject
@@ -65,9 +73,19 @@ class MainActivity : DaggerAppCompatActivity() {
             syncState()
         }
 
-        supportFragmentManager.beginTransaction()
-            .add(R.id.container, TestbedFragment(), "testbed")
-            .commit()
+        viewModel.sendMessage.observe(this, Observer { message ->
+
+            val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment)
+
+            var currDest = navHostFragment?.getChildFragmentManager()?.getFragments()?.get(0);
+
+            currDest?.let { frag ->
+                if (frag is TestbedFragment) {
+                    frag.sendMessage(message)
+                }
+            }
+
+        })
 
     }
 }

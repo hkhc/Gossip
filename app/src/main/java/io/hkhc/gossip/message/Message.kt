@@ -16,18 +16,18 @@
  *
  */
 
-package io.hkhc.gossip
+package io.hkhc.gossip.message
 
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import javax.inject.Inject
+import io.netty.buffer.ByteBuf
 
-class MainViewModel @Inject constructor() : ViewModel() {
+abstract class Message(
+    val type: Int
+) {
 
-    val sendMessage = MutableLiveData<String>()
+    var timestamp: Long = -1
 
-    fun send(msg: String) {
-        sendMessage.value = msg
-    }
+    fun getMessageType() = type
+    abstract fun decode(data: ByteBuf)
+    abstract fun encode(): ByteBuf
 
 }

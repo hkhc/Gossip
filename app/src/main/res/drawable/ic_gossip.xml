@@ -16,6 +16,8 @@
   ~
   -->
 
+<!-- Source https://www.flaticon.com/free-icon/gossip_1533751 -->
+
 <vector android:height="192dp" android:viewportHeight="490.032"
     android:viewportWidth="490.032" android:width="192dp" xmlns:android="http://schemas.android.com/apk/res/android">
     <path android:fillColor="#44D6BE" android:pathData="M490,245.016c0,117.29 -82.43,215.34 -192.52,239.36c-9.14,2 -18.47,3.49 -27.96,4.43c-1.27,0.13 -2.53,0.24 -3.81,0.34c-6.82,0.58 -13.73,0.87 -20.71,0.87c-49.29,0 -95.17,-14.55 -133.59,-39.59c-13.56,-8.84 -26.2,-18.99 -37.73,-30.27C28.22,375.686 0,313.646 0,245.016c0,-135.31 109.69,-245 245,-245S490,109.706 490,245.016z"/>

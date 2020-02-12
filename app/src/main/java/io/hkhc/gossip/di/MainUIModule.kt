@@ -24,6 +24,7 @@ import dagger.Module
 import dagger.multibindings.IntoMap
 import io.hkhc.dagger.ViewModelKey
 import io.hkhc.gossip.MainViewModel
+import io.hkhc.gossip.testbed.ConfigViewModel
 import io.hkhc.gossip.testbed.TestbedViewModel
 
 @Module
@@ -39,5 +40,10 @@ abstract class MainUIModule {
     @IntoMap
     @ViewModelKey(TestbedViewModel::class)
     internal abstract fun testbed(viewModel: TestbedViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(ConfigViewModel::class)
+    internal abstract fun config(viewModel: ConfigViewModel): ViewModel
 
 }

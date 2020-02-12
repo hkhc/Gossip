@@ -16,18 +16,16 @@
  *
  */
 
-package io.hkhc.gossip
+package io.hkhc.gossip.testbed
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import javax.inject.Inject
 
-class MainViewModel @Inject constructor() : ViewModel() {
+class ConfigViewModel @Inject constructor(): ViewModel() {
 
-    val sendMessage = MutableLiveData<String>()
+    val memberName = MutableLiveData<String>()
+    val hostMode = MutableLiveData<Boolean>(false)
 
-    fun send(msg: String) {
-        sendMessage.value = msg
-    }
 
 }

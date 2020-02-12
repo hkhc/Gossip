@@ -18,11 +18,12 @@
 
 package io.hkhc.gossip.testbed
 
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import javax.inject.Inject
 
 class TestbedViewModel @Inject constructor(): ViewModel() {
 
-
+    val hostMode = MutableLiveData<Boolean>()
 
 }

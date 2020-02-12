@@ -35,22 +35,12 @@
         android:layout_height="match_parent"
         >
 
-        <androidx.coordinatorlayout.widget.CoordinatorLayout
+        <LinearLayout
             android:id="@+id/container"
+            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             >
-            <!--
-                add the body here (ok to be by FragmentTransaction.add(container_id, fragment, tag)
-                The body shall implements NestedScrollChild.
-                e.g. RecyclerView, NestedScrollView, SwipeRefreshLayout etc
-
-                It should have
-                app:layout_behavior="@string/appbar_scrolling_view_behavior"
-
-                Those NestedScrollChild-views work even if there are layers of view in between.
-                So it is ok to have SwipeRefreshLayout between CoordinatorLayout and NestedScrollView.
-            -->
 
             <!-- AppBarLayout should be direct child of CoordinatorLayout -->
             <com.google.android.material.appbar.AppBarLayout
@@ -58,58 +48,27 @@
                 android:layout_height="wrap_content"
                 >
 
-
-                <!--
-                    scrollFlags always be at the child of AppBarLayout, no matter it is
-                    CollapsingToolbarLayout or Toolbar itself.
-
-                    layout_scrollFlags: combination of the following:
-                    scroll:
-                        needed if toolbar is ever scrollable
-                    enterAlways:
-                        for scroll down
-                        without it, scrolling view > toolbar,
-                        with it, toolbar > scrolling view
-                    enterAlwaysCollapsed:
-                        for scroll down
-                        toolbar (min) > scrolling view > toolbar (full)
-                    exitUntilCollapsed:
-                        for scroll up
-                        toolbar (min) > scrolling view
-                    snap:
-                        if toolbar is partially scrolled when touch up, it will be snapped to
-                        show or hide.
-                -->
-
-                <!--
-                   CollapsingToolbarLayout is here to wrap toolbar, and we may have more child
-                   in CollapsingToolbarLayout.
-                   The scrollFlags should be there, and the child (i.e. toolbar
-                   itself) shall have
-
-                   app:layout_collapseMode="..."
-
-                   Children of CollapsingToolbarLayout shall have a collapseMode:
-
-                   pin: it stay not scrolling until collapsing completed
-                   parallax: if we have that add layout_collapseParallaxMultiplier too
-                   off:
-
-                   Activity shall invoke setSupportActionBar(toolbar) at onCreate, and setup
-                   AppBarDrawerToggle with this toolbar and drawerLayout
-
-               -->
-
                 <com.google.android.material.appbar.MaterialToolbar
                     android:id="@+id/toolbar"
                     android:layout_width="match_parent"
                     android:layout_height="?android:attr/actionBarSize"
-                    app:layout_scrollFlags="scroll|enterAlways"
                     />
 
             </com.google.android.material.appbar.AppBarLayout>
 
-        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+            <fragment
+                android:id="@+id/nav_host_fragment"
+                android:name="androidx.navigation.fragment.NavHostFragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+
+                app:defaultNavHost="true"
+                app:navGraph="@navigation/nav_graph"
+
+                />
+
+
+        </LinearLayout>
 
         <!--
             HeaderLayout shall be setup in code, otherwise data binding to header view won't work

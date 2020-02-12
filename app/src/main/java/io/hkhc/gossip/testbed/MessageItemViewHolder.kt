@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019. Herman Cheung
+ * Copyright (c) 2020. Herman Cheung
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,17 +16,16 @@
  *
  */
 
-package io.hkhc.providers
+package io.hkhc.gossip.testbed
 
-import io.hkhc.log.l
-import org.junit.Test
+import android.view.ViewGroup
+import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
+import io.hkhc.gossip.R
 
-class ExtensionsTest {
+class MessageItemViewHolder(vg: ViewGroup): RecyclerView.ViewHolder(vg) {
 
-    @Test
-    fun `test logging message only`() {
+    val memberName = vg.findViewById<TextView>(R.id.memberName)
+    val message = vg.findViewById<TextView>(R.id.message)
 
-        l.debug("Hello")
-
-    }
 }

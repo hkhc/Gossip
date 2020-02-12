@@ -21,6 +21,7 @@ package io.hkhc.gossip.di
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import io.hkhc.dagger.FragmentScope
+import io.hkhc.gossip.testbed.ConfigFragment
 import io.hkhc.gossip.testbed.TestbedFragment
 
 @Module
@@ -30,4 +31,8 @@ abstract class MainFragmentBuilder {
     @ContributesAndroidInjector(modules = [])
     @FragmentScope
     abstract fun testbed(): TestbedFragment
+
+    @ContributesAndroidInjector(modules = [])
+    @FragmentScope
+    abstract fun config(): ConfigFragment
 }
