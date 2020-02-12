@@ -15,14 +15,20 @@
 ## Architecutre
 
 - Use more or less standard AndroidX MVVM architecture. that the app can be divided into multiple layer:
-
   - Layout/UI + Activity/Fragment
   - ViewModel, which use LiveData to communicate with UI
   - Model, plain object for "business logic", that is how chat messages are handled
-
 - Network communication make use of Netty library based on Java NIO, with underlying TCP connections.
 
-  
+## How to build the app
+
+- Given Android SDK or Android Studio is in place, it should be able to build out of the box. At project directory
+
+  ```
+  ./gradlew app:assembleDebug
+  ```
+
+  []()
 
 ## Message Format
 
